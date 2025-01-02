@@ -1,0 +1,68 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.openapi.generator' version '7.10.0'
+}
+
+group = 'com.my'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'jakarta.validation:jakarta.validation-api'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+
+tasks.register('dealAggregatorApiGenerate', GenerateTask) {
+    inputSpecRootDirectory = "$projectDir/api/deal-aggregator"
+    outputDir = "$rootDir/build/generated-sources"
+    generatorName = "spring"
+    modelPackage = "com.my.deal_aggregator.api"
+    apiPackage = "com.my.deal_aggregator.api"
+    library = "spring-boot"
+    configOptions = [
+            documentationProvider: 'none',
+            useSpringBoot3       : 'true',
+            useBeanValidation    : 'false',
+            useResponseEntity    : 'false',
+    ]
+    additionalProperties = [
+            skipDefaultInterface: 'true',
+            interfaceOnly       : 'true',
+            openApiNullable     : 'false',
+            unhandledException  : 'false',
+    ]
+}
+
+tasks.compileJava {
+    dependsOn tasks.dealAggregatorApiGenerate
+}
+
+sourceSets.main.java.srcDirs += "build/generated-sources/src/main/java"
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

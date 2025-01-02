@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: deal_aggregator api
+  version: 0.0.1
+servers:
+  - url: http://localhost
+
+paths:
+  /v1/ticker/{ticker}:
+    get:
+      description: Получение апгегированной информации по инструменту
+      operationId: getTicker
+      parameters:
+        - in: path
+          name: ticker
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TickerInfoResponse'
+
+components:
+  schemas:
+    
+    TickerInfoResponse:
+      properties:
+        min:
+          type: string
+          format: decimal
+        max:
+          type: string
+          format: decimal
+        avg:
+          type: string
+          format: decimal
+      required:
+        - min
+        - max
+        - avg
