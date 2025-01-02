@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DealAggregatorApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DealAggregatorApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DealAggregatorApplication.class, args);
+    }
 
 }
