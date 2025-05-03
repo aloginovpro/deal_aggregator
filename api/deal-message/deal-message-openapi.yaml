@@ -1,0 +1,17 @@
+info:
+  title: deal message api
+  version: 0.0.1
+  
+components:
+  schemas:
+    
+    DealMessage:
+      properties:
+        ticker:
+          type: string
+        value:
+          type: string
+          format: decimal
+      required:
+        - ticker
+        - value
